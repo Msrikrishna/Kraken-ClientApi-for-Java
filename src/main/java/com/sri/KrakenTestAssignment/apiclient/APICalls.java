@@ -1,15 +1,38 @@
 package com.sri.KrakenTestAssignment.apiclient;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sri.KrakenTestAssignment.entity.OrderBookWrapper;
 import com.sri.KrakenTestAssignment.entity.SystemStatus;
 import com.sri.KrakenTestAssignment.entity.TickerInfo;
+import jdk.jfr.ContentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.net.URLEncoder;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.Timestamp;
+import java.text.Format;
+import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 //Singleton
@@ -35,6 +58,14 @@ public class APICalls {
     final static String uri_orderBookData = "https://api.kraken.com/0/public/Depth?pair={pair_id}&count={count_id}";
     final static String uri_recentTradesSimple = "https://api.kraken.com/0/public/Trades?pair={pair_id}";
     final static String uri_recentTrades = "https://api.kraken.com/0/public/Trades?pair={pair_id}&since={since_id}";
+
+
+    //Private URLS
+    final static String uri_webSocketToken = "https://api.kraken.com/0/private/GetWebSocketsToken";
+
+
+    //Other
+
 
     public ResponseEntity<SystemStatus> fetchSystemStatus() {
         RestTemplate restTemplate = new RestTemplate();
@@ -104,6 +135,36 @@ public class APICalls {
         logger.debug("Recent trades for " + pairId + " received: " + result.toString());
         return result;
     }
+    public ResponseEntity<JsonNode> getWebSocketsToken(String apiKey, String apiPrivateKey) {
+        return getWebSocketsToken(apiKey, apiPrivateKey, null);
+    }
+
+    public ResponseEntity<JsonNode> getWebSocketsToken(String apiKey, String apiPrivateKey, String otp) {
+        RestTemplate restTemplate = new RestTemplate();
+        ObjectMapper o = new ObjectMapper();
+
+        MultiValueMap<String, String> body= new LinkedMultiValueMap<String, String>();
+        body.add("nonce", String.valueOf((int)10*System.currentTimeMillis()));
+        if (otp != null) {
+            body.add("otp", otp);
+        }
+        String apiSign = Util.getAPISignature("/0/private/GetWebSocketsToken", body.getFirst("nonce"), body, apiPrivateKey);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("API-Key", apiKey);
+        headers.add("API-Sign", apiSign);
+        headers.add("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+        //headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
+
+        ResponseEntity<JsonNode> result = restTemplate.postForEntity(uri_webSocketToken, request, JsonNode.class);
+        logger.debug("Web socket token response: "+ result);
+        return result;
+    }
+
+
+
+
 
 
 

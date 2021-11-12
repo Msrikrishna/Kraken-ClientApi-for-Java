@@ -14,8 +14,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 
 /*
     Initially checks the systems sanity
@@ -215,6 +213,7 @@ class OrderBookDataTest {
 }
 
 
+
 //Not implemented yet.
 @Disabled
 class RecentTradesTest {
@@ -243,3 +242,5 @@ class RecentTradesTest {
 
     }
 }
+
+
