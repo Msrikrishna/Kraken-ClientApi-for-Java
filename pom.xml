@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.sri</groupId>
-	<artifactId>KrakenTestAssignment</artifactId>
+	<artifactId>KrakenJavaClientAPI</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>KrakenTestAssignment</name>
-	<description>Sample testing for Kraken public end points</description>
+	<name>KrakenJavaClientAPI</name>
+	<description>Client side implementation of Kraken  end points</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>

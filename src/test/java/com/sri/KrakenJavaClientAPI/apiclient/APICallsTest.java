@@ -1,11 +1,11 @@
-package com.sri.KrakenTestAssignment.apiclient;
+package com.sri.KrakenJavaClientAPI.apiclient;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sri.KrakenTestAssignment.entity.OrderBookWrapper;
-import com.sri.KrakenTestAssignment.entity.SystemStatus;
-import com.sri.KrakenTestAssignment.entity.TickerInfo;
+import com.sri.KrakenJavaClientAPI.entity.OrderBookWrapper;
+import com.sri.KrakenJavaClientAPI.entity.SystemStatus;
+import com.sri.KrakenJavaClientAPI.entity.TickerInfo;
 import org.junit.jupiter.api.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

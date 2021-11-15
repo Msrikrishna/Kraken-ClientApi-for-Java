@@ -1,16 +1,10 @@
-package com.sri.KrakenTestAssignment.apiclient;
+package com.sri.KrakenJavaClientAPI.apiclient;
 
-import org.springframework.lang.NonNull;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.util.UriBuilder;
-import org.springframework.web.util.UriBuilderFactory;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;

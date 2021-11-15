@@ -1,13 +1,12 @@
-package com.sri.KrakenTestAssignment.apiclient;
+package com.sri.KrakenJavaClientAPI.apiclient;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sri.KrakenTestAssignment.config.PrivateAPIConfig;
+import com.sri.KrakenJavaClientAPI.config.PrivateAPIConfig;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

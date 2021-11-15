@@ -1,38 +1,17 @@
-package com.sri.KrakenTestAssignment.handlers;
+package com.sri.KrakenJavaClientAPI.handlers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.web.socket.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
-
-@JsonSerialize
-
-public class CurrencySubscriptionHandler implements WebSocketHandler {
-    String currencyPair;
-
-    public CurrencySubscriptionHandler(String currencyPair) {
-        this.currencyPair = currencyPair;
-    }
-
+public class MyPingHandler implements WebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         Map<Object,Object> request = new HashMap<>();
         request.put("event", "ping");
-
-        //session.sendMessage(new TextMessage(new ObjectMapper().writeValueAsString(request)));
-        session.sendMessage(new TextMessage("{\n" +
-                "  \"event\": \"subscribe\",\n" +
-                "  \"pair\": [\n" +
-                "    \""+currencyPair+"\"\n" +
-                "  ],\n" +
-                "  \"subscription\": {\n" +
-                "    \"name\": \"ticker\"\n" +
-                "  }\n" +
-                "}")); //send a json  as string here
+        session.sendMessage(new TextMessage(new ObjectMapper().writeValueAsString(request)));
     }
 
     @Override
@@ -43,7 +22,7 @@ public class CurrencySubscriptionHandler implements WebSocketHandler {
 
     @Override
     public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
-        System.out.println(exception.getCause());
+
     }
 
     @Override
@@ -55,6 +34,4 @@ public class CurrencySubscriptionHandler implements WebSocketHandler {
     public boolean supportsPartialMessages() {
         return false;
     }
-
-
 }

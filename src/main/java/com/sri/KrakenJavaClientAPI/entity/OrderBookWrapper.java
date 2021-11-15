@@ -1,4 +1,4 @@
-package com.sri.KrakenTestAssignment.entity;
+package com.sri.KrakenJavaClientAPI.entity;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

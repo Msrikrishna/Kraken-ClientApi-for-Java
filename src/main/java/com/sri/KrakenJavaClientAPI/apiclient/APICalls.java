@@ -1,38 +1,21 @@
-package com.sri.KrakenTestAssignment.apiclient;
+package com.sri.KrakenJavaClientAPI.apiclient;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sri.KrakenTestAssignment.entity.OrderBookWrapper;
-import com.sri.KrakenTestAssignment.entity.SystemStatus;
-import com.sri.KrakenTestAssignment.entity.TickerInfo;
-import jdk.jfr.ContentType;
+import com.sri.KrakenJavaClientAPI.entity.OrderBookWrapper;
+import com.sri.KrakenJavaClientAPI.entity.SystemStatus;
+import com.sri.KrakenJavaClientAPI.entity.TickerInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import java.net.URLEncoder;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.Timestamp;
-import java.text.Format;
-import java.util.Base64;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 //Singleton

@@ -1,19 +1,14 @@
-package com.sri.KrakenTestAssignment.entity;
+package com.sri.KrakenJavaClientAPI.entity;
 /*
     Model holding system status objects and necessary methods
  */
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.io.IOException;
-import java.net.http.HttpResponse;
 import java.util.Arrays;
 
 @JsonDeserialize(using = SystemStatus.class)
