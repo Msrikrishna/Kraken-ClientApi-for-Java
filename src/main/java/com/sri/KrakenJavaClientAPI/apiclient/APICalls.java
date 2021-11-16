@@ -1,5 +1,6 @@
 package com.sri.KrakenJavaClientAPI.apiclient;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -122,6 +124,13 @@ public class APICalls {
         return getWebSocketsToken(apiKey, apiPrivateKey, null);
     }
 
+    public String getWebSocketsTokenAsString(String apiKey, String apiPrivateKey) throws JsonProcessingException {
+        ResponseEntity<JsonNode> response =  getWebSocketsToken(apiKey, apiPrivateKey);
+        ObjectMapper o = new ObjectMapper();
+        String token = o.treeToValue(response.getBody().get("result").get("token"), String.class);
+        return token;
+    }
+
     public ResponseEntity<JsonNode> getWebSocketsToken(String apiKey, String apiPrivateKey, String otp) {
         RestTemplate restTemplate = new RestTemplate();
         ObjectMapper o = new ObjectMapper();
@@ -144,6 +153,8 @@ public class APICalls {
         logger.debug("Web socket token response: "+ result);
         return result;
     }
+
+
 
 
 
