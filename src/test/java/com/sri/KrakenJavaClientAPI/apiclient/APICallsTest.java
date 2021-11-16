@@ -138,11 +138,11 @@ class TickerInformationTest {
         ResponseEntity<TickerInfo> result = api.fetchTickerInformation("ETHUSD");
         TickerInfo info =  result.getBody();
         //Today
-        assert Double.parseDouble(info.getTodaysOpeningPrice()) <  Double.parseDouble(info.getHigh()[0]);
-        assert Double.parseDouble(info.getTodaysOpeningPrice()) >  Double.parseDouble(info.getLow()[0]);
+        assert Double.parseDouble(info.getTodaysOpeningPrice()) <=  Double.parseDouble(info.getHigh()[0]);
+        assert Double.parseDouble(info.getTodaysOpeningPrice()) >=  Double.parseDouble(info.getLow()[0]);
         //Last 24 hrs
-        assert Double.parseDouble(info.getTodaysOpeningPrice()) <  Double.parseDouble(info.getHigh()[1]);
-        assert Double.parseDouble(info.getTodaysOpeningPrice()) >  Double.parseDouble(info.getLow()[1]);
+        assert Double.parseDouble(info.getTodaysOpeningPrice()) <=  Double.parseDouble(info.getHigh()[1]);
+        assert Double.parseDouble(info.getTodaysOpeningPrice()) >=  Double.parseDouble(info.getLow()[1]);
 
     }
 
