@@ -4,12 +4,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sri.KrakenJavaClientAPI.apiclient.APICalls;
 import com.sri.KrakenJavaClientAPI.config.PrivateAPIConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class KrakenAuthSocketHandler implements WebSocketHandler {
+    Logger logger = LoggerFactory.getLogger(KrakenAuthSocketHandler.class);
+
     static PrivateAPIConfig config = new PrivateAPIConfig();
     static APICalls api = APICalls.getInstance();
 
@@ -42,16 +46,15 @@ public class KrakenAuthSocketHandler implements WebSocketHandler {
         subscription.put("token", token);
 
         request.put("subscription", subscription);
-        System.out.print("Message sent: " + request.toString());
+        logger.debug("Message sent: " + request.toString());
 
         session.sendMessage(new TextMessage(new ObjectMapper().writeValueAsString(request)));
     }
 
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-        System.out.print("Message received: " );
         JsonNode input = (new ObjectMapper()).readValue((String) message.getPayload(), JsonNode.class);
-        System.out.println(input.toString());
+        logger.debug("Message received: " + input.toString());
     }
 
     @Override
@@ -61,7 +64,7 @@ public class KrakenAuthSocketHandler implements WebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
-        System.out.println("Authenticated connection to Kraken has been closed");
+        logger.debug("Authenticated connection to Kraken has been closed");
         session.close();
     }
 

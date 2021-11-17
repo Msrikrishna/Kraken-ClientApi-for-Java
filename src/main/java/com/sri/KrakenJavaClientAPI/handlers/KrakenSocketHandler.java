@@ -2,15 +2,19 @@ package com.sri.KrakenJavaClientAPI.handlers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sri.KrakenJavaClientAPI.KrakenJavaClientAPI;
 import com.sri.KrakenJavaClientAPI.apiclient.APICalls;
 import com.sri.KrakenJavaClientAPI.config.PrivateAPIConfig;
-import org.springframework.web.socket.CloseStatus;
-import org.springframework.web.socket.WebSocketHandler;
-import org.springframework.web.socket.WebSocketMessage;
-import org.springframework.web.socket.WebSocketSession;
+import com.sri.KrakenJavaClientAPI.socketclient.WebSocketCalls;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.socket.*;
+
+
 
 public class KrakenSocketHandler implements WebSocketHandler {
-    static APICalls api = APICalls.getInstance();
+    Logger logger = LoggerFactory.getLogger(KrakenSocketHandler.class);
+
 
     private WebSocketSession session;
 
@@ -20,14 +24,13 @@ public class KrakenSocketHandler implements WebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         this.session = session;
-        System.out.println("Standard connection opened");
+        logger.debug("Standard connection opened");
     }
 
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-        System.out.print("Message received: " );
         JsonNode input = (new ObjectMapper()).readValue((String) message.getPayload(), JsonNode.class);
-        System.out.println(input.toString());
+        logger.debug("Message received: " + input.toString());
     }
 
     @Override
@@ -37,7 +40,7 @@ public class KrakenSocketHandler implements WebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
-        System.out.println("Standard connection to Kraken has been closed");
+        logger.debug("Standard connection to Kraken has been closed");
         session.close();
     }
 
