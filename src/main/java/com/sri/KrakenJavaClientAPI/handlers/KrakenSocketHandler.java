@@ -2,10 +2,7 @@ package com.sri.KrakenJavaClientAPI.handlers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sri.KrakenJavaClientAPI.KrakenJavaClientAPI;
-import com.sri.KrakenJavaClientAPI.apiclient.APICalls;
-import com.sri.KrakenJavaClientAPI.config.PrivateAPIConfig;
-import com.sri.KrakenJavaClientAPI.socketclient.WebSocketCalls;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.*;

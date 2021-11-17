@@ -3,6 +3,8 @@ package com.sri.KrakenJavaClientAPI.socketclient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sri.KrakenJavaClientAPI.handlers.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -21,6 +23,8 @@ Refer to https://docs.kraken.com/websockets/#connectionDetails for more details
 */
 
 public class WebSocketCalls {
+    Logger logger = LoggerFactory.getLogger(WebSocketCalls.class);
+
 
     final String URL = "wss://ws.kraken.com";
     final String privateURL = "wss://ws-auth.kraken.com";
@@ -48,15 +52,28 @@ public class WebSocketCalls {
         return handler;
     }
 
-    //Tries to perform simple web socket connection to the Kraken WebSockets API
     public void pingCheck() throws ExecutionException, InterruptedException, IOException {
         KrakenSocketHandler handler = openSocket();
         WebSocketSession session = handler.getSession();
         if (session.isOpen()) {   //Create payload
             Map<Object,Object> request = new HashMap<>();
             request.put("event", "ping");
-            System.out.println("Message sent: " + request);
             session.sendMessage(new TextMessage(new ObjectMapper().writeValueAsString(request)));
+            logger.debug("Message sent: " + request);
+        }
+    }
+
+    /*
+    Server sends message whenever system changes
+     */
+    public void systemStatus() throws ExecutionException, InterruptedException, IOException {
+        KrakenSocketHandler handler = openSocket();
+        WebSocketSession session = handler.getSession();
+        if (session.isOpen()) {   //Create payload
+            Map<Object,Object> request = new HashMap<>();
+            request.put("event", "systemStatus");
+            session.sendMessage(new TextMessage(new ObjectMapper().writeValueAsString(request)));
+            logger.debug("Message sent: " + request);
         }
     }
 
@@ -78,8 +95,8 @@ public class WebSocketCalls {
             if (interval != null) subscription.put("interval", interval);
             subscription.put("name", name);
             request.put("subscription", subscription);
-            System.out.println("Message sent: " + request);
             session.sendMessage(new TextMessage(new ObjectMapper().writeValueAsString(request)));
+            logger.debug("Message sent: " + request);
         }
     }
 
@@ -95,8 +112,9 @@ public class WebSocketCalls {
             if (interval != null) subscription.put("interval", interval);
             subscription.put("name", name);
             request.put("subscription", subscription);
-            System.out.println("Message sent: " + request);
             session.sendMessage(new TextMessage(new ObjectMapper().writeValueAsString(request)));
+            logger.debug("Message sent: " + request);
+
         }
     }
 
@@ -107,8 +125,8 @@ public class WebSocketCalls {
             Map<Object,Object> request = new HashMap<>();
             request.put("event", "unsubscribe");
             request.put("channelID", channelID);
-            System.out.println("Message sent: " + request);
             session.sendMessage(new TextMessage(new ObjectMapper().writeValueAsString(request)));
+            logger.debug("Message sent: " + request);
         }
     }
 
@@ -144,8 +162,8 @@ public class WebSocketCalls {
                 subscription.put("name", name);
                 subscription.put("token", token);
                 request.put("subscription", subscription);
-                System.out.println("Message sent: " + request);
                 session.sendMessage(new TextMessage(new ObjectMapper().writeValueAsString(request)));
+                logger.debug("Message sent: " + request);
             }
         }
     }
@@ -164,8 +182,8 @@ public class WebSocketCalls {
                 subscription.put("name", name);
                 subscription.put("token", token);
                 request.put("subscription", subscription);
-                System.out.println("Message sent: " + request);
                 session.sendMessage(new TextMessage(new ObjectMapper().writeValueAsString(request)));
+                logger.debug("Message sent: " + request);
             }
     }
 
@@ -178,8 +196,8 @@ public class WebSocketCalls {
             request.put("event", "unsubscribe");
             request.put("channelID", channelID);
             request.put("token", token);
-            System.out.println("Message sent: " + request);
             session.sendMessage(new TextMessage(new ObjectMapper().writeValueAsString(request)));
+            logger.debug("Message sent: " + request);
         }
     }
 
@@ -212,8 +230,8 @@ public class WebSocketCalls {
             if (price!= null) request.put("price", Double.toString(price));
             if (price2 != null) request.put("price2", Double.toString(price2));
             if (timeInForce != null) request.put("timeinforce", timeInForce);
-            System.out.println("Message sent: " + request);
             session.sendMessage(new TextMessage(new ObjectMapper().writeValueAsString(request)));
+            logger.debug("Message sent: " + request);
         }
     }
 
@@ -227,9 +245,9 @@ public class WebSocketCalls {
             request.put("event", "cancelOrder");
             request.put("token", token);
             request.put("txid", orderIds);
-
-            System.out.println("Message sent: " + request);
             session.sendMessage(new TextMessage(new ObjectMapper().writeValueAsString(request)));
+            logger.debug("Message sent: " + request);
+
         }
     }
 
@@ -242,8 +260,8 @@ public class WebSocketCalls {
             Map<Object,Object> request = new HashMap<>();
             request.put("event", "cancelAll");
             request.put("token", token);
-            System.out.println("Message sent: " + request);
             session.sendMessage(new TextMessage(new ObjectMapper().writeValueAsString(request)));
+            logger.debug("Message sent: " + request);
         }
     }
 
@@ -262,8 +280,8 @@ public class WebSocketCalls {
             request.put("event", "cancelAllOrdersAfter");
             request.put("token", token);
             request.put("timeout", timeout);
-            System.out.println("Message sent: " + request);
             session.sendMessage(new TextMessage(new ObjectMapper().writeValueAsString(request)));
+            logger.debug("Message sent: " + request);
         }
     }
 
