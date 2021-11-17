@@ -3,8 +3,14 @@ package com.sri.KrakenJavaClientAPI.handlers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.sri.KrakenJavaClientAPI.bl.MyDataHandler;
+import com.sri.KrakenJavaClientAPI.handlers.ResponseHandlerInterface.IResponseHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.socket.*;
 
 
@@ -12,8 +18,9 @@ import org.springframework.web.socket.*;
 public class KrakenSocketHandler implements WebSocketHandler {
     Logger logger = LoggerFactory.getLogger(KrakenSocketHandler.class);
 
-
     private WebSocketSession session;
+
+    IResponseHandler responseHandler;
 
     public WebSocketSession getSession() {
         return session;
@@ -21,6 +28,7 @@ public class KrakenSocketHandler implements WebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         this.session = session;
+        this.responseHandler = new MyDataHandler();
         logger.debug("Standard connection opened");
     }
 
@@ -28,6 +36,22 @@ public class KrakenSocketHandler implements WebSocketHandler {
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
         JsonNode input = (new ObjectMapper()).readValue((String) message.getPayload(), JsonNode.class);
         logger.debug("Message received: " + input.toString());
+        if (input.has("event")) {
+            String event = input.get("event").asText();
+            switch (event) {
+                case "systemStatus":
+                    responseHandler.handleSystemStatusResponse(input);
+                    break;
+                case "subscriptionStatus":    //Store channel Ids for further processing
+                    responseHandler.handleSubscriptionResponse(input);
+                    break;
+                default:
+                    break;
+            }
+        }
+        if (input.has("channelName")) { //Use stored channel Ids to route the event
+            responseHandler.handlePublicDataByChannelName(input);
+        }
     }
 
     @Override

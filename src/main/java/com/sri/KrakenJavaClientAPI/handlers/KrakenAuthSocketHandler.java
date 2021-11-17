@@ -3,9 +3,12 @@ package com.sri.KrakenJavaClientAPI.handlers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sri.KrakenJavaClientAPI.apiclient.APICalls;
+import com.sri.KrakenJavaClientAPI.bl.MyDataHandler;
 import com.sri.KrakenJavaClientAPI.config.PrivateAPIConfig;
+import com.sri.KrakenJavaClientAPI.handlers.ResponseHandlerInterface.IResponseHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.*;
 
 import java.util.HashMap;
@@ -16,6 +19,8 @@ public class KrakenAuthSocketHandler implements WebSocketHandler {
 
     static PrivateAPIConfig config = new PrivateAPIConfig();
     static APICalls api = APICalls.getInstance();
+
+    IResponseHandler responseHandler;
 
     private String token;
     private WebSocketSession session;
@@ -38,6 +43,7 @@ public class KrakenAuthSocketHandler implements WebSocketHandler {
         }
         this.token = token;
         this.session = session;
+        this.responseHandler = new MyDataHandler();
         Map<Object,Object> request = new HashMap<>();
         request.put("event", "subscribe");
 
@@ -55,6 +61,28 @@ public class KrakenAuthSocketHandler implements WebSocketHandler {
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
         JsonNode input = (new ObjectMapper()).readValue((String) message.getPayload(), JsonNode.class);
         logger.debug("Message received: " + input.toString());
+        if (input.has("event")) {
+            String event = input.get("event").toString();
+            switch (event) {
+                case "addOrderStatus":
+                    responseHandler.handleAddOrderResponse(input);
+                    break;
+                case "cancelOrderStatus":
+                    responseHandler.handleCancelOrderResponse(input);
+                    break;
+                case "cancelAllStatus":
+                    responseHandler.handleCancelAllOrderResponse(input);
+                    break;
+                case "cancelAllOrdersAfterStatus":
+                    responseHandler.handleCancelAllAfterOrderResponse(input);
+                    break;
+                default:
+                    break;
+            }
+        }
+        if (input.has("channelName")) { //Use stored channel Ids to route the event
+            responseHandler.handlePrivateDataByChannelName(input);
+        }
     }
 
     @Override
