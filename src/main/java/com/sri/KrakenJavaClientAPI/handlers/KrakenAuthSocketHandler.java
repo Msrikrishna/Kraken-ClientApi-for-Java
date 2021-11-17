@@ -65,23 +65,23 @@ public class KrakenAuthSocketHandler implements WebSocketHandler {
             String event = input.get("event").toString();
             switch (event) {
                 case "addOrderStatus":
-                    responseHandler.handleAddOrderResponse(input);
+                    responseHandler.handleAddOrderResponse(session, input);
                     break;
                 case "cancelOrderStatus":
-                    responseHandler.handleCancelOrderResponse(input);
+                    responseHandler.handleCancelOrderResponse(session, input);
                     break;
                 case "cancelAllStatus":
-                    responseHandler.handleCancelAllOrderResponse(input);
+                    responseHandler.handleCancelAllOrderResponse(session, input);
                     break;
                 case "cancelAllOrdersAfterStatus":
-                    responseHandler.handleCancelAllAfterOrderResponse(input);
+                    responseHandler.handleCancelAllAfterOrderResponse(session, input);
                     break;
                 default:
                     break;
             }
         }
         if (input.has("channelName")) { //Use stored channel Ids to route the event
-            responseHandler.handlePrivateDataByChannelName(input);
+            responseHandler.handlePrivateDataByChannelName(session, input);
         }
     }
 

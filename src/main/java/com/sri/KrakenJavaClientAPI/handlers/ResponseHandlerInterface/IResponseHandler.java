@@ -2,27 +2,28 @@ package com.sri.KrakenJavaClientAPI.handlers.ResponseHandlerInterface;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.WebSocketSession;
 
 /*
     Implement methods to handle responses from the server
  */
 public interface IResponseHandler {
 
-    public void handleSystemStatusResponse(JsonNode input);
+    public void handleSystemStatusResponse(WebSocketSession session, JsonNode input);
 
-    public void  handleSubscriptionResponse(JsonNode input);
+    public void  handleSubscriptionResponse(WebSocketSession session, JsonNode input);
 
-    public void handlePublicDataByChannelName(JsonNode input);
+    public void handlePublicDataByChannelName(WebSocketSession session, JsonNode input);
 
    //--------------------------------------------Private responses-------------------------------------
 
-    public void handleAddOrderResponse(JsonNode input);
+    public void handleAddOrderResponse(WebSocketSession session, JsonNode input);
 
-    public void  handleCancelOrderResponse(JsonNode input);
+    public void  handleCancelOrderResponse(WebSocketSession session, JsonNode input);
 
-    public void  handleCancelAllOrderResponse(JsonNode input);
+    public void  handleCancelAllOrderResponse(WebSocketSession session, JsonNode input);
 
-    public void handleCancelAllAfterOrderResponse(JsonNode input);
+    public void handleCancelAllAfterOrderResponse(WebSocketSession session, JsonNode input);
 
-    public void  handlePrivateDataByChannelName(JsonNode input);
+    public void  handlePrivateDataByChannelName(WebSocketSession session, JsonNode input);
 }

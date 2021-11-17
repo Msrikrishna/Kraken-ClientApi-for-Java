@@ -40,17 +40,17 @@ public class KrakenSocketHandler implements WebSocketHandler {
             String event = input.get("event").asText();
             switch (event) {
                 case "systemStatus":
-                    responseHandler.handleSystemStatusResponse(input);
+                    responseHandler.handleSystemStatusResponse(session, input);
                     break;
                 case "subscriptionStatus":    //Store channel Ids for further processing
-                    responseHandler.handleSubscriptionResponse(input);
+                    responseHandler.handleSubscriptionResponse(session, input);
                     break;
                 default:
                     break;
             }
         }
         if (input.has("channelName")) { //Use stored channel Ids to route the event
-            responseHandler.handlePublicDataByChannelName(input);
+            responseHandler.handlePublicDataByChannelName(session, input);
         }
     }
 

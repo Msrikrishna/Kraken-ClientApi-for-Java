@@ -57,13 +57,13 @@ class WebSocketCallsTest {
     @Disabled
     void subscribeToOpenOrders() throws ExecutionException, InterruptedException, IOException {
         socketAPI.subscribePrivate("openOrders");
-        Thread.sleep(10000);
+        Thread.sleep(5000);
     }
 
     @Test
     public void subscribeToOwnTrades() throws ExecutionException, InterruptedException, IOException {
         socketAPI.subscribePrivate("ownTrades");
-        Thread.sleep(10000);
+        Thread.sleep(5000);
     }
 
     @Test
@@ -78,7 +78,7 @@ class WebSocketCallsTest {
     @Test
     public void addMarketBuyOrder() throws IOException, ExecutionException, InterruptedException {
         socketAPI.addNewOrder("buy", "market","BTC/USDT", 0.0001, null, null, "GTC" );
-        Thread.sleep(10000);
+        Thread.sleep(5000);
     }
 
 
@@ -88,19 +88,19 @@ class WebSocketCallsTest {
         List<String> orders = new ArrayList<>();
         orders.add("My-Transaction-ID");
         socketAPI.cancelOrders(orders);
-        Thread.sleep(10000);
+        Thread.sleep(5000);
     }
 
     @Test
     void cancelAllOrders() throws IOException, ExecutionException, InterruptedException {
         socketAPI.cancelAllOrders();
-        Thread.sleep(10000);
+        Thread.sleep(5000);
     }
 
     @Test
     void cancelAllOrdersAfter() throws IOException, ExecutionException, InterruptedException {
         socketAPI.cancelAllOrdersAfter(10);
-        Thread.sleep(10000);
+        Thread.sleep(5000);
     }
 
 
