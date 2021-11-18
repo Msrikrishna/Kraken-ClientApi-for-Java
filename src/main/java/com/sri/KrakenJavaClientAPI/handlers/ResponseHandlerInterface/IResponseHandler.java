@@ -15,6 +15,11 @@ public interface IResponseHandler {
 
     public void handlePublicDataByChannelName(WebSocketSession session, JsonNode input);
 
+    /*
+        Handles various payloads Ex: Spreads, book, ohlc etc
+     */
+    public void handlePayloads(WebSocketSession session, JsonNode input);
+
    //--------------------------------------------Private responses-------------------------------------
 
     public void handleAddOrderResponse(WebSocketSession session, JsonNode input);
@@ -25,5 +30,7 @@ public interface IResponseHandler {
 
     public void handleCancelAllAfterOrderResponse(WebSocketSession session, JsonNode input);
 
-    public void  handlePrivateDataByChannelName(WebSocketSession session, JsonNode input);
+    public void handlePrivateDataByChannelName(WebSocketSession session, JsonNode input);
+
+    public void handlePrivatePayloads(WebSocketSession session, JsonNode input);
 }

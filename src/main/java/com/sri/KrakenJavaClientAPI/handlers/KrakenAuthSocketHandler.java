@@ -79,6 +79,9 @@ public class KrakenAuthSocketHandler implements WebSocketHandler {
                 default:
                     break;
             }
+        }else {
+            //Handle generic periodic payloads
+            responseHandler.handlePrivatePayloads(session, input);
         }
         if (input.has("channelName")) { //Use stored channel Ids to route the event
             responseHandler.handlePrivateDataByChannelName(session, input);

@@ -7,10 +7,6 @@ import com.sri.KrakenJavaClientAPI.bl.MyDataHandler;
 import com.sri.KrakenJavaClientAPI.handlers.ResponseHandlerInterface.IResponseHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.socket.*;
 
 
@@ -48,10 +44,14 @@ public class KrakenSocketHandler implements WebSocketHandler {
                 default:
                     break;
             }
+        } else {
+            //Handle generic periodic payloads
+            responseHandler.handlePayloads(session, input);
         }
         if (input.has("channelName")) { //Use stored channel Ids to route the event
             responseHandler.handlePublicDataByChannelName(session, input);
         }
+
     }
 
     @Override
