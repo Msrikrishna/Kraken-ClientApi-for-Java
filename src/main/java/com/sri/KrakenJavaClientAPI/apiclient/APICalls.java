@@ -43,6 +43,8 @@ public class APICalls {
     final static String uri_orderBookData = "https://api.kraken.com/0/public/Depth?pair={pair_id}&count={count_id}";
     final static String uri_recentTradesSimple = "https://api.kraken.com/0/public/Trades?pair={pair_id}";
     final static String uri_recentTrades = "https://api.kraken.com/0/public/Trades?pair={pair_id}&since={since_id}";
+    final static String uri_assets = "https://api.kraken.com/0/public/Assets";
+    final static String uri_assetPairs = "https://api.kraken.com/0/public/AssetPairs";
 
 
     //Private URLS
@@ -76,6 +78,20 @@ public class APICalls {
         ResponseEntity<JsonNode> result = restTemplate.getForEntity(uri_tickerInformation, JsonNode.class, params);
         logger.debug("Ticker info for " + pairId + " received: " + result.toString());
         return result;
+    }
+
+    public JsonNode fetchAllAssetsAsJSON() {
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<JsonNode> result = restTemplate.getForEntity(uri_assets, JsonNode.class);
+        //logger.debug("All tickers available: "+ result.getBody());
+        return result.getBody();
+    }
+
+    public JsonNode fetchAllAssetPairsAsJSON() {
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<JsonNode> result = restTemplate.getForEntity(uri_assetPairs, JsonNode.class);
+        //logger.debug("All asset pairs available: "+ result.getBody());
+        return result.getBody();
     }
 
 
